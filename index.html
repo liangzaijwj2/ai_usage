@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>AI 使用足迹报告</title>
+<meta name="description" content="DeepSeek、豆包、千问、WorkBuddy 四个工具的使用足迹：花在什么事上、哪些做法真的省下了时间。">
+<meta name="color-scheme" content="light dark">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%232b5cff'/%3E%3Ctext x='16' y='22' font-size='15' font-family='monospace' font-weight='700' fill='white' text-anchor='middle'%3EAI%3C/text%3E%3C/svg%3E">
+</head>
+<body>
+
+<!-- ============ 导航 ============ -->
+<header class="nav" id="nav">
+  <div class="nav-inner">
+    <a class="brand" href="#top">
+      <span class="brand-mark">AI</span>
+      <span class="brand-name">使用足迹 <span>/ usage footprint</span></span>
+    </a>
+    <nav class="nav-links">
+      <a href="#overview">概览</a>
+      <a href="#tools">工具</a>
+      <a href="#timeline">记录</a>
+      <a href="#insights">心得</a>
+    </nav>
+    <div class="nav-right">
+      <button class="icon-btn" id="printBtn" title="打印 / 导出 PDF" aria-label="打印">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M6 9V3h12v6M6 18H4v-6h16v6h-2M8 14h8v7H8z"/>
+        </svg>
+      </button>
+      <button class="icon-btn" id="themeBtn" title="切换主题" aria-label="切换主题"></button>
+      <a class="btn btn-sm" href="admin.html">后台管理</a>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- ============ Hero ============ -->
+  <section class="hero">
+    <div class="wrap">
+      <div class="hero-grid">
+        <div>
+          <div class="eyebrow">AI Usage Report</div>
+          <div class="hero-meta">
+            <div class="avatar" id="avatar">AI</div>
+            <div>
+              <div class="hero-meta-name" id="heroName">—</div>
+              <div class="hero-meta-sub" id="heroRole">—</div>
+            </div>
+          </div>
+          <h1>我把 AI 用成了<br><em id="heroTagline">第二双手</em></h1>
+          <p class="hero-lead" id="heroBio"></p>
+          <div class="hero-actions" id="heroActions"></div>
+        </div>
+
+        <aside>
+          <div class="side-card">
+            <div class="side-title">最近在用</div>
+            <div class="side-list" id="sideRecent"></div>
+          </div>
+          <div class="side-card">
+            <div class="side-title">订阅成本</div>
+            <div id="sideCost"></div>
+          </div>
+          <div class="side-card">
+            <div class="side-title">高频标签</div>
+            <div class="filters" id="sideTags"></div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ KPI ============ -->
+  <section class="tight">
+    <div class="wrap">
+      <div class="kpi-grid" id="kpis"></div>
+    </div>
+  </section>
+
+  <!-- ============ 概览 ============ -->
+  <section id="overview">
+    <div class="wrap">
+      <div class="sec-head">
+        <div>
+          <div class="eyebrow">Overview</div>
+          <h2 class="sec-title">时间都花到哪儿去了</h2>
+          <p class="sec-desc">按月汇总的投入时长，以及各类任务占的比重。</p>
+        </div>
+      </div>
+
+      <div class="cols-2">
+        <div class="panel">
+          <div class="panel-head">
+            <div>
+              <div class="panel-title">每月使用时长</div>
+              <div class="panel-sub">单位：分钟</div>
+            </div>
+          </div>
+          <div class="panel-body" id="trendChart"></div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head">
+            <div>
+              <div class="panel-title">任务类型分布</div>
+              <div class="panel-sub">按投入时长</div>
+            </div>
+          </div>
+          <div class="panel-body">
+            <div id="donutHost"></div>
+            <div class="legend" style="margin-top:18px" id="donutLegend"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel" style="margin-top:16px">
+        <div class="panel-head">
+          <div>
+            <div class="panel-title">每日使用热力</div>
+            <div class="panel-sub">最近 22 周 · 颜色越深表示当天投入越多</div>
+          </div>
+        </div>
+        <div class="panel-body" style="overflow-x:auto" id="heatmapHost"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 工具 ============ -->
+  <section id="tools">
+    <div class="wrap">
+      <div class="sec-head">
+        <div>
+          <div class="eyebrow">Toolbox</div>
+          <h2 class="sec-title">我的 AI 工具箱</h2>
+          <p class="sec-desc">按累计使用时长排序。长条表示相对投入强度。</p>
+        </div>
+      </div>
+      <div class="tool-grid" id="toolGrid"></div>
+    </div>
+  </section>
+
+  <!-- ============ 时间线 ============ -->
+  <section id="timeline">
+    <div class="wrap">
+      <div class="sec-head">
+        <div>
+          <div class="eyebrow">Timeline</div>
+          <h2 class="sec-title">使用记录</h2>
+          <p class="sec-desc">每条记录都写清了当时在做什么、花了多久、最后结果如何。</p>
+        </div>
+        <div class="search-wrap">
+          <input class="search" id="recSearch" type="search" placeholder="搜索任务 / 结果 / 标签" aria-label="搜索记录">
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head">
+          <div class="filters" id="toolFilters"></div>
+          <div class="right">
+            <span class="panel-sub" id="timelineCount"></span>
+          </div>
+        </div>
+        <div class="panel-body" id="timeline"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 心得 ============ -->
+  <section id="insights">
+    <div class="wrap">
+      <div class="sec-head">
+        <div>
+          <div class="eyebrow">Notes</div>
+          <h2 class="sec-title">一些真正有用的心得</h2>
+          <p class="sec-desc">这一年踩过的坑和总结出的用法，写给未来的自己。</p>
+        </div>
+      </div>
+      <div class="insight-grid" id="insightGrid"></div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="wrap foot">
+  <span class="brand-mark" style="width:24px;height:24px;border-radius:7px;font-size:10px">AI</span>
+  <span id="footMeta"></span>
+  <span class="right">
+    <a href="admin.html">后台管理</a>
+    <span>·</span>
+    <span>页面由我维护，数据持续更新</span>
+  </span>
+</footer>
+
+<div class="toast-host" id="toastHost"></div>
+
+<script src="assets/js/store.js"></script>
+<script src="assets/js/charts.js"></script>
+<script src="assets/js/site.js"></script>
+</body>
+</html>

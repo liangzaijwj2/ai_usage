@@ -1,0 +1,686 @@
+{
+  "version": 1,
+  "profile": {
+    "name": "Guang",
+    "role": "独立开发者 / AI 重度使用者",
+    "tagline": "把 AI 当作第二双手",
+    "bio": "这是我 2026 年的 AI 使用足迹：只用四个工具——DeepSeek 负责推理与核对，豆包负责内容与表达，千问负责读长文和整理文档，WorkBuddy 负责把想法落成能跑的东西。这里记录用了什么、花在什么事上、哪些做法真的省下了时间，数据由我自己维护。",
+    "since": "2025-03",
+    "avatar": "",
+    "links": []
+  },
+  "tools": [
+    {
+      "id": "t-deepseek",
+      "name": "DeepSeek",
+      "vendor": "深度求索",
+      "category": "推理与对话",
+      "color": "#4d6bfe",
+      "icon": "🐋",
+      "cost": 0,
+      "since": "2025-03",
+      "note": "算口径、核对逻辑、推演边界条件的第一站，推理链条摆得清楚，便于逐条反驳。"
+    },
+    {
+      "id": "t-doubao",
+      "name": "豆包",
+      "vendor": "字节跳动",
+      "category": "内容创作",
+      "color": "#1ec8b0",
+      "icon": "🫘",
+      "cost": 0,
+      "since": "2025-07",
+      "note": "写文案、起标题、整理纪要，中文语感顺，出稿快，改起来也不用反复交代背景。"
+    },
+    {
+      "id": "t-qwen",
+      "name": "千问",
+      "vendor": "阿里云",
+      "category": "研究与办公",
+      "color": "#7c5cff",
+      "icon": "🧠",
+      "cost": 0,
+      "since": "2025-11",
+      "note": "长文档、PDF 表格、多版本比对交给它，能落到具体段落，引用可回溯。"
+    },
+    {
+      "id": "t-workbuddy",
+      "name": "WorkBuddy",
+      "vendor": "WorkBuddy",
+      "category": "工程与执行",
+      "color": "#ff7a45",
+      "icon": "🛠️",
+      "cost": 0,
+      "since": "2026-10",
+      "note": "从搭骨架到发布上线，把想法直接落成能跑的东西；本页的数据也是用它做的。"
+    }
+  ],
+  "categories": [
+    {
+      "name": "推理与对话",
+      "color": "#4d6bfe"
+    },
+    {
+      "name": "内容创作",
+      "color": "#1ec8b0"
+    },
+    {
+      "name": "研究与办公",
+      "color": "#7c5cff"
+    },
+    {
+      "name": "工程与执行",
+      "color": "#ff7a45"
+    }
+  ],
+  "records": [
+    {
+      "id": "r-1",
+      "date": "2026-06-08",
+      "toolId": "t-deepseek",
+      "task": "拆解一段缓存穿透的复现路径",
+      "minutes": 55,
+      "outcome": "定位到空值未回写，补上兜底逻辑",
+      "tags": [
+        "排查"
+      ]
+    },
+    {
+      "id": "r-2",
+      "date": "2026-06-17",
+      "toolId": "t-deepseek",
+      "task": "交叉验算季度成本模型",
+      "minutes": 40,
+      "outcome": "发现一处汇率口径错位",
+      "tags": [
+        "数据"
+      ]
+    },
+    {
+      "id": "r-3",
+      "date": "2026-07-02",
+      "toolId": "t-deepseek",
+      "task": "对比三种任务队列方案的取舍",
+      "minutes": 50,
+      "outcome": "输出一张决策对照表",
+      "tags": [
+        "方案"
+      ]
+    },
+    {
+      "id": "r-4",
+      "date": "2026-07-21",
+      "toolId": "t-deepseek",
+      "task": "推导令牌桶限流的边界条件",
+      "minutes": 35,
+      "outcome": "补齐了突发流量下的退化说明",
+      "tags": [
+        "学习"
+      ]
+    },
+    {
+      "id": "r-5",
+      "date": "2026-08-05",
+      "toolId": "t-deepseek",
+      "task": "把一段模糊需求拆成可验收条目",
+      "minutes": 45,
+      "outcome": "需求条目从 6 条细化到 19 条",
+      "tags": [
+        "需求"
+      ]
+    },
+    {
+      "id": "r-6",
+      "date": "2026-08-19",
+      "toolId": "t-deepseek",
+      "task": "复核 SQL 执行计划的索引选择",
+      "minutes": 30,
+      "outcome": "去掉一个多余索引，查询快了一半",
+      "tags": [
+        "数据"
+      ]
+    },
+    {
+      "id": "r-7",
+      "date": "2026-09-03",
+      "toolId": "t-deepseek",
+      "task": "推演多租户鉴权的最坏路径",
+      "minutes": 60,
+      "outcome": "找到两处越权缺口",
+      "tags": [
+        "安全"
+      ]
+    },
+    {
+      "id": "r-8",
+      "date": "2026-09-12",
+      "toolId": "t-deepseek",
+      "task": "讨论任务失败后的重试策略",
+      "minutes": 50,
+      "outcome": "定了指数退避加幂等键",
+      "tags": [
+        "架构"
+      ]
+    },
+    {
+      "id": "r-9",
+      "date": "2026-09-25",
+      "toolId": "t-deepseek",
+      "task": "让模型逐字符解释一段正则",
+      "minutes": 25,
+      "outcome": "修掉一个贪婪匹配的坑",
+      "tags": [
+        "学习"
+      ]
+    },
+    {
+      "id": "r-10",
+      "date": "2026-10-09",
+      "toolId": "t-deepseek",
+      "task": "核对月度用量统计的口径差异",
+      "minutes": 40,
+      "outcome": "统一为按自然日切分",
+      "tags": [
+        "数据"
+      ]
+    },
+    {
+      "id": "r-11",
+      "date": "2026-10-13",
+      "toolId": "t-deepseek",
+      "task": "拆解一份竞品的功能矩阵",
+      "minutes": 55,
+      "outcome": "输出 4×9 的功能对比表",
+      "tags": [
+        "调研"
+      ]
+    },
+    {
+      "id": "r-12",
+      "date": "2026-10-16",
+      "toolId": "t-deepseek",
+      "task": "复盘一次线上抖动的时间线",
+      "minutes": 45,
+      "outcome": "定位到连接池被打满的触发点",
+      "tags": [
+        "排查"
+      ]
+    },
+    {
+      "id": "r-13",
+      "date": "2026-07-06",
+      "toolId": "t-doubao",
+      "task": "起草产品更新说明的中文初稿",
+      "minutes": 30,
+      "outcome": "结构可用，措辞改了两遍",
+      "tags": [
+        "写作"
+      ]
+    },
+    {
+      "id": "r-14",
+      "date": "2026-07-15",
+      "toolId": "t-doubao",
+      "task": "把 20 分钟访谈录音整理成稿",
+      "minutes": 45,
+      "outcome": "转写与分段一次完成",
+      "tags": [
+        "整理"
+      ]
+    },
+    {
+      "id": "r-15",
+      "date": "2026-07-29",
+      "toolId": "t-doubao",
+      "task": "写 5 版不同风格的口播文案",
+      "minutes": 35,
+      "outcome": "选了节奏最舒服的第 3 版",
+      "tags": [
+        "文案"
+      ]
+    },
+    {
+      "id": "r-16",
+      "date": "2026-08-11",
+      "toolId": "t-doubao",
+      "task": "生成一组公众号封面的构图草图",
+      "minutes": 40,
+      "outcome": "定了第三版的留白比例",
+      "tags": [
+        "设计"
+      ]
+    },
+    {
+      "id": "r-17",
+      "date": "2026-08-24",
+      "toolId": "t-doubao",
+      "task": "把技术长文改写成通俗版本",
+      "minutes": 50,
+      "outcome": "阅读完成率明显提升",
+      "tags": [
+        "写作"
+      ]
+    },
+    {
+      "id": "r-18",
+      "date": "2026-09-02",
+      "toolId": "t-doubao",
+      "task": "为活动页写 3 组标题 A/B 方案",
+      "minutes": 25,
+      "outcome": "上线后 B 组点击高 18%",
+      "tags": [
+        "文案"
+      ]
+    },
+    {
+      "id": "r-19",
+      "date": "2026-09-16",
+      "toolId": "t-doubao",
+      "task": "整理会议纪要并提取待办",
+      "minutes": 30,
+      "outcome": "抽出 7 条带负责人的待办",
+      "tags": [
+        "整理"
+      ]
+    },
+    {
+      "id": "r-20",
+      "date": "2026-09-29",
+      "toolId": "t-doubao",
+      "task": "写一版 90 秒的产品口播脚本",
+      "minutes": 35,
+      "outcome": "剪完成片直接可用",
+      "tags": [
+        "文案"
+      ]
+    },
+    {
+      "id": "r-21",
+      "date": "2026-10-08",
+      "toolId": "t-doubao",
+      "task": "给新功能起 12 个候选名字",
+      "minutes": 20,
+      "outcome": "留下 3 个进入评审",
+      "tags": [
+        "命名"
+      ]
+    },
+    {
+      "id": "r-22",
+      "date": "2026-10-12",
+      "toolId": "t-doubao",
+      "task": "把用户反馈聚类成 6 个主题",
+      "minutes": 40,
+      "outcome": "发现一个高频但被漏掉的痛点",
+      "tags": [
+        "调研"
+      ]
+    },
+    {
+      "id": "r-23",
+      "date": "2026-10-15",
+      "toolId": "t-doubao",
+      "task": "写周报要点版，压到 300 字",
+      "minutes": 25,
+      "outcome": "直接发给了团队",
+      "tags": [
+        "写作"
+      ]
+    },
+    {
+      "id": "r-24",
+      "date": "2026-06-11",
+      "toolId": "t-qwen",
+      "task": "读一份 60 页行业报告，列出关键数据",
+      "minutes": 60,
+      "outcome": "摘出 12 个可引用的数字",
+      "tags": [
+        "阅读"
+      ]
+    },
+    {
+      "id": "r-25",
+      "date": "2026-06-24",
+      "toolId": "t-qwen",
+      "task": "把 PDF 里的表格转成结构化数据",
+      "minutes": 35,
+      "outcome": "省掉半天手工录入",
+      "tags": [
+        "数据"
+      ]
+    },
+    {
+      "id": "r-26",
+      "date": "2026-07-09",
+      "toolId": "t-qwen",
+      "task": "查国内大模型 API 的计价差异",
+      "minutes": 45,
+      "outcome": "拿到 5 家官方价格页",
+      "tags": [
+        "调研"
+      ]
+    },
+    {
+      "id": "r-27",
+      "date": "2026-07-23",
+      "toolId": "t-qwen",
+      "task": "整理一份访谈逐字稿",
+      "minutes": 40,
+      "outcome": "自动分了发言人和议题",
+      "tags": [
+        "整理"
+      ]
+    },
+    {
+      "id": "r-28",
+      "date": "2026-08-07",
+      "toolId": "t-qwen",
+      "task": "把合同条款做成中英对照",
+      "minutes": 50,
+      "outcome": "术语统一后直接归档",
+      "tags": [
+        "文档"
+      ]
+    },
+    {
+      "id": "r-29",
+      "date": "2026-08-20",
+      "toolId": "t-qwen",
+      "task": "拆解竞品定价页的结构",
+      "minutes": 30,
+      "outcome": "画出三档定价对照图",
+      "tags": [
+        "调研"
+      ]
+    },
+    {
+      "id": "r-30",
+      "date": "2026-09-05",
+      "toolId": "t-qwen",
+      "task": "做会议实时记录与摘要",
+      "minutes": 45,
+      "outcome": "会后 5 分钟拿到纪要",
+      "tags": [
+        "整理"
+      ]
+    },
+    {
+      "id": "r-31",
+      "date": "2026-09-18",
+      "toolId": "t-qwen",
+      "task": "校验报表里的同比与环比",
+      "minutes": 35,
+      "outcome": "揪出一处基数用错",
+      "tags": [
+        "数据"
+      ]
+    },
+    {
+      "id": "r-32",
+      "date": "2026-10-03",
+      "toolId": "t-qwen",
+      "task": "整理需求池里的 40 条反馈",
+      "minutes": 55,
+      "outcome": "合并去重后剩 26 条",
+      "tags": [
+        "整理"
+      ]
+    },
+    {
+      "id": "r-33",
+      "date": "2026-10-07",
+      "toolId": "t-qwen",
+      "task": "读 30 页技术规范，输出速查表",
+      "minutes": 40,
+      "outcome": "一页纸覆盖 80% 场景",
+      "tags": [
+        "阅读"
+      ]
+    },
+    {
+      "id": "r-34",
+      "date": "2026-10-11",
+      "toolId": "t-qwen",
+      "task": "把流程图描述转成文字说明",
+      "minutes": 25,
+      "outcome": "补进文档的流程章节",
+      "tags": [
+        "文档"
+      ]
+    },
+    {
+      "id": "r-35",
+      "date": "2026-10-14",
+      "toolId": "t-qwen",
+      "task": "比对两份版本的差异",
+      "minutes": 30,
+      "outcome": "找出 9 处实质改动",
+      "tags": [
+        "文档"
+      ]
+    },
+    {
+      "id": "r-36",
+      "date": "2026-10-01",
+      "toolId": "t-workbuddy",
+      "task": "让 WorkBuddy 搭出静态站点的目录骨架",
+      "minutes": 40,
+      "outcome": "一次跑通，省掉脚手架搭建",
+      "tags": [
+        "建站"
+      ]
+    },
+    {
+      "id": "r-37",
+      "date": "2026-10-02",
+      "toolId": "t-workbuddy",
+      "task": "写访客页的设计系统与样式变量",
+      "minutes": 65,
+      "outcome": "浅深两套主题共用一套变量",
+      "tags": [
+        "前端"
+      ]
+    },
+    {
+      "id": "r-38",
+      "date": "2026-10-03",
+      "toolId": "t-workbuddy",
+      "task": "实现自绘 SVG 折线图",
+      "minutes": 55,
+      "outcome": "不引第三方库也够用",
+      "tags": [
+        "前端"
+      ]
+    },
+    {
+      "id": "r-39",
+      "date": "2026-10-05",
+      "toolId": "t-workbuddy",
+      "task": "实现环形图与热力图的绘制逻辑",
+      "minutes": 50,
+      "outcome": "三张图零依赖上线",
+      "tags": [
+        "前端"
+      ]
+    },
+    {
+      "id": "r-40",
+      "date": "2026-10-06",
+      "toolId": "t-workbuddy",
+      "task": "写后台登录与口令校验模块",
+      "minutes": 45,
+      "outcome": "带盐哈希后本地校验通过",
+      "tags": [
+        "后台"
+      ]
+    },
+    {
+      "id": "r-41",
+      "date": "2026-10-07",
+      "toolId": "t-workbuddy",
+      "task": "做工具与记录的增删改查表单",
+      "minutes": 70,
+      "outcome": "全流程实测通过",
+      "tags": [
+        "后台"
+      ]
+    },
+    {
+      "id": "r-42",
+      "date": "2026-10-08",
+      "toolId": "t-workbuddy",
+      "task": "加数据导入导出与一键恢复",
+      "minutes": 35,
+      "outcome": "JSON 往返无损",
+      "tags": [
+        "后台"
+      ]
+    },
+    {
+      "id": "r-43",
+      "date": "2026-10-09",
+      "toolId": "t-workbuddy",
+      "task": "跑 Node 脚本验证数据层",
+      "minutes": 30,
+      "outcome": "全部记录读写无异常",
+      "tags": [
+        "测试"
+      ]
+    },
+    {
+      "id": "r-44",
+      "date": "2026-10-10",
+      "toolId": "t-workbuddy",
+      "task": "用浏览器自动化截图核对渲染",
+      "minutes": 40,
+      "outcome": "修掉三处间距问题",
+      "tags": [
+        "测试"
+      ]
+    },
+    {
+      "id": "r-45",
+      "date": "2026-10-11",
+      "toolId": "t-workbuddy",
+      "task": "调深色模式的对比度",
+      "minutes": 35,
+      "outcome": "正文对比度到 7:1 以上",
+      "tags": [
+        "设计"
+      ]
+    },
+    {
+      "id": "r-46",
+      "date": "2026-10-12",
+      "toolId": "t-workbuddy",
+      "task": "做移动端断点与卡片自适应",
+      "minutes": 45,
+      "outcome": "小屏不再横向溢出",
+      "tags": [
+        "前端"
+      ]
+    },
+    {
+      "id": "r-47",
+      "date": "2026-10-14",
+      "toolId": "t-workbuddy",
+      "task": "把数据层改成可切换云端的接口",
+      "minutes": 60,
+      "outcome": "换实现不用改页面",
+      "tags": [
+        "架构"
+      ]
+    },
+    {
+      "id": "r-48",
+      "date": "2026-10-15",
+      "toolId": "t-workbuddy",
+      "task": "发布上线并核对线上资源",
+      "minutes": 25,
+      "outcome": "页面与数据快照都可访问",
+      "tags": [
+        "发布"
+      ]
+    },
+    {
+      "id": "r-49",
+      "date": "2026-10-17",
+      "toolId": "t-workbuddy",
+      "task": "把示例数据换成四个工具的真实足迹",
+      "minutes": 35,
+      "outcome": "报告口径统一到 10 月",
+      "tags": [
+        "数据"
+      ]
+    }
+  ],
+  "insights": [
+    {
+      "id": "i-1",
+      "date": "2026-10-16",
+      "title": "同一件事，交给对的工具",
+      "content": "推理算账找 DeepSeek，写字配图找豆包，读长文和整理文档交给千问，真要落成能跑的东西才开 WorkBuddy。工具少一点，切换成本就低一点。",
+      "tags": [
+        "方法"
+      ]
+    },
+    {
+      "id": "i-2",
+      "date": "2026-10-06",
+      "title": "长文档先问结构，再问细节",
+      "content": "上来就让它总结，得到的是正确但没用的废话。先问目录和立场，再挑两章深读——读 60 页和读 10 页花的时间差不多。",
+      "tags": [
+        "阅读"
+      ]
+    },
+    {
+      "id": "i-3",
+      "date": "2026-09-27",
+      "title": "三版方案，胜过一版最优解",
+      "content": "直接问\"最优解\"，拿到的通常是最大公约数。让它一次给三个差异明显的方向，我再挑一个往下做，结果好得多。",
+      "tags": [
+        "方法"
+      ]
+    },
+    {
+      "id": "i-4",
+      "date": "2026-09-15",
+      "title": "代码要跑起来才算完成",
+      "content": "没真正运行过的生成代码，八成有边界问题。让它跑通、让它报错、让它自己修，这一步省不掉。",
+      "tags": [
+        "编程"
+      ]
+    },
+    {
+      "id": "i-5",
+      "date": "2026-08-26",
+      "title": "输出必须能追溯来源",
+      "content": "凡是转述的数据，都要能找到原始出处；找不到的，我就当它不存在。这一条挡掉过好几次错误引用。",
+      "tags": [
+        "原则"
+      ]
+    },
+    {
+      "id": "i-6",
+      "date": "2026-08-02",
+      "title": "把重复的动作沉淀成流程",
+      "content": "第二遍写脚本，第三遍沉淀成流程。AI 最值得投入的地方不是\"帮我做一次\"，而是\"帮我把这件事做完就不再需要我\"。",
+      "tags": [
+        "工程化"
+      ]
+    },
+    {
+      "id": "i-7",
+      "date": "2026-07-19",
+      "title": "留一点不用 AI 的时间",
+      "content": "通勤和散步时自己想清楚问题，回来再让它执行。想清楚这件事，暂时还没有工具能代劳。",
+      "tags": [
+        "原则"
+      ]
+    }
+  ],
+  "settings": {
+    "theme": "light",
+    "updatedAt": "2026-10-17T13:29:32.813Z"
+  }
+}
