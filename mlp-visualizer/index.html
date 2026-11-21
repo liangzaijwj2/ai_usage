@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MLP Lab · 多层感知机参数学习与可视化</title>
+<meta name="description" content="纯 JavaScript 实现的多层感知机：前向传播、反向传播、梯度下降的可视化交互实验室">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <div class="logo">MLP</div>
+    <div>
+      <h1>MLP Lab · 参数学习可视化实验室</h1>
+      <p>从随机初始化到收敛，亲眼看见每一个权重如何被梯度改变</p>
+    </div>
+  </div>
+  <div class="top-actions">
+    <span class="tag">纯 JS · 零依赖 · 浏览器内训练</span>
+    <a class="ghost-btn" id="demoLink" href="https://liangzaijwj2.github.io/ai_usage/mlp-visualizer/" target="_blank" rel="noopener">在线演示 ↗</a>
+    <a class="ghost-btn" id="ghLink" href="https://github.com/liangzaijwj2/ai_usage" target="_blank" rel="noopener">源码 ↗</a>
+  </div>
+</header>
+
+<div class="layout">
+
+  <!-- ================= 左侧控制面板 ================= -->
+  <aside class="sidebar">
+
+    <section class="panel">
+      <h2>① 数据集</h2>
+      <label class="field">
+        <span>分布</span>
+        <select id="dataset"></select>
+      </label>
+      <label class="field">
+        <span>样本数 <b id="countVal">240</b></span>
+        <input type="range" id="count" min="40" max="600" step="20" value="240">
+      </label>
+      <label class="field">
+        <span>噪声 σ <b id="noiseVal">0.06</b></span>
+        <input type="range" id="noise" min="0" max="0.30" step="0.01" value="0.06">
+      </label>
+      <div class="btn-row">
+        <button class="mini" id="regenData">重新生成</button>
+        <button class="mini" id="clearCustom">清空自定义点</button>
+      </div>
+      <p class="hint">选择「自定义」后：<b>左键</b>加蓝点（类别 0），<b>Shift+左键 / 右键</b>加橙点（类别 1）。</p>
+    </section>
+
+    <section class="panel">
+      <h2>② 网络结构</h2>
+      <label class="field">
+        <span>隐藏层（逗号分隔，1–3 层，每层 1–8）</span>
+        <input type="text" id="layers" value="4,4" spellcheck="false">
+      </label>
+      <div class="chips" id="archChips">
+        <button data-arch="2">2</button>
+        <button data-arch="3">3</button>
+        <button data-arch="4">4</button>
+        <button data-arch="4,4">4,4</button>
+        <button data-arch="8,4">8,4</button>
+        <button data-arch="8,8,4">8,8,4</button>
+      </div>
+      <label class="field">
+        <span>隐藏层激活函数</span>
+        <select id="activation">
+          <option value="tanh">tanh（推荐）</option>
+          <option value="sigmoid">sigmoid</option>
+          <option value="relu">ReLU</option>
+        </select>
+      </label>
+      <label class="field">
+        <span>随机种子 <b id="seedVal">42</b></span>
+        <input type="number" id="seed" value="42" min="1" max="99999" step="1">
+      </label>
+      <p class="hint">结构 = [2, 隐藏层…, 1]，输出层固定为 sigmoid 二分类。</p>
+    </section>
+
+    <section class="panel">
+      <h2>③ 学习参数</h2>
+      <label class="field">
+        <span>优化器</span>
+        <select id="optimizer">
+          <option value="adam">Adam</option>
+          <option value="momentum">SGD + Momentum</option>
+          <option value="sgd">SGD</option>
+        </select>
+      </label>
+      <label class="field">
+        <span>学习率 η <b id="lrVal">0.030</b></span>
+        <input type="range" id="lr" min="0.001" max="0.50" step="0.001" value="0.03">
+      </label>
+      <label class="field">
+        <span>L2 正则 λ <b id="l2Val">0.0000</b></span>
+        <input type="range" id="l2" min="0" max="0.02" step="0.0005" value="0">
+      </label>
+      <label class="field">
+        <span>批大小</span>
+        <select id="batch">
+          <option value="16">16</option>
+          <option value="32" selected>32</option>
+          <option value="64">64</option>
+          <option value="0">全量（Batch GD）</option>
+        </select>
+      </label>
+      <label class="field">
+        <span>每帧训练步数 <b id="speedVal">4</b></span>
+        <input type="range" id="speed" min="1" max="20" step="1" value="4">
+      </label>
+    </section>
+
+    <section class="panel controls">
+      <h2>④ 训练控制</h2>
+      <div class="btn-row main-btns">
+        <button class="primary" id="toggle">▶ 开始训练</button>
+        <button class="mini" id="stepBtn">单步 ⏭</button>
+      </div>
+      <div class="btn-row">
+        <button class="mini" id="resetNet">重置参数 ↺</button>
+        <button class="mini" id="resetAll">全部重置</button>
+      </div>
+      <p class="hint">快捷键：<b>空格</b> 播放 / 暂停。鼠标在决策边界上移动，可查看对应输入在网络中的激活值。</p>
+    </section>
+
+  </aside>
+
+  <!-- ================= 右侧主区 ================= -->
+  <main class="content">
+
+    <div class="metrics" id="metrics">
+      <div class="metric"><span>Epoch</span><b id="mEpoch">0.0</b></div>
+      <div class="metric"><span>训练步数</span><b id="mStep">0</b></div>
+      <div class="metric"><span>损失 Loss</span><b id="mLoss">—</b></div>
+      <div class="metric"><span>准确率 Acc</span><b id="mAcc">—</b></div>
+      <div class="metric"><span>梯度范数 ‖g‖</span><b id="mGrad">—</b></div>
+      <div class="metric"><span>平均 |ΔW|</span><b id="mDelta">—</b></div>
+      <div class="metric"><span>参数量</span><b id="mParams">—</b></div>
+    </div>
+
+    <div class="viz-grid">
+      <section class="card boundary-card">
+        <div class="card-head">
+          <h3>决策边界 P(y=1)</h3>
+          <span class="legend"><i class="dot c0"></i>类别 0 <i class="dot c1"></i>类别 1 <i class="ring"></i>预测错误</span>
+        </div>
+        <div class="canvas-wrap square"><canvas id="boundary"></canvas></div>
+        <p class="card-foot" id="probeInfo">鼠标移入画布：查看该点的网络激活 →</p>
+      </section>
+
+      <div class="right-col">
+        <section class="card">
+          <div class="card-head"><h3>损失 / 准确率曲线</h3><span class="sub">每帧采样一次全量指标</span></div>
+          <div class="canvas-wrap curve"><canvas id="curve"></canvas></div>
+        </section>
+        <section class="card">
+          <div class="card-head"><h3>网络结构与实时权重</h3><span class="sub" id="archLabel">[2, 4, 4, 1]</span></div>
+          <div class="canvas-wrap network"><canvas id="network"></canvas></div>
+        </section>
+      </div>
+    </div>
+
+    <section class="card detail-card">
+      <div class="tabs" id="tabs">
+        <button class="active" data-tab="weights">权重矩阵 W / 偏置 b</button>
+        <button data-tab="fields">隐藏神经元响应场</button>
+        <button data-tab="theory">数学原理速览</button>
+      </div>
+
+      <div class="tab-body" id="tab-weights">
+        <p class="tab-note">下图是网络<strong>正在被学习的参数</strong>。训练时每 0.25 秒刷新一次，蓝色为正、橙色为负；观察它们从随机小数值逐渐长成有意义的模式。</p>
+        <div class="weight-grid" id="weightTable"></div>
+      </div>
+
+      <div class="tab-body hidden" id="tab-fields">
+        <p class="tab-note">每个小图是一个隐藏神经元在整个输入平面上的激活强度（蓝=正响应，橙=负响应）。随着训练，它们会各自「分工」负责某一条边界——这就是网络学到的特征。</p>
+        <div class="canvas-wrap fields"><canvas id="fields"></canvas></div>
+      </div>
+
+      <div class="tab-body hidden" id="tab-theory">
+        <div class="theory-grid">
+          <div class="theory-col">
+            <h4>1 · 前向传播 Forward</h4>
+            <div class="formula">a<sup>(0)</sup> = x ∈ ℝ²</div>
+            <div class="formula">z<sup>(l)</sup> = W<sup>(l)</sup> a<sup>(l-1)</sup> + b<sup>(l)</sup></div>
+            <div class="formula">a<sup>(l)</sup> = σ(z<sup>(l)</sup>)，&nbsp; l = 1…L-1</div>
+            <div class="formula">ŷ = sigmoid(z<sup>(L)</sup>) ∈ (0,1)</div>
+            <p>输入两个坐标，经过若干隐藏层做非线性变换，最后由输出层给出一个概率。<b>没有隐藏层或没有非线性激活函数</b>，整个网络等价于逻辑回归，无法解决 XOR。</p>
+
+            <h4>2 · 损失函数 Loss</h4>
+            <div class="formula">L = −(1/N) Σ [ y log ŷ + (1−y) log(1−ŷ) ] + (λ/2) Σ‖W‖²</div>
+            <p>二元交叉熵衡量预测概率与真实标签的差距；L2 项惩罚过大的权重，让决策边界更平滑。图中颜色越深表示模型对类别判断越自信。</p>
+
+            <h4>3 · 反向传播 Backprop</h4>
+            <div class="formula">δ<sup>(L)</sup> = ŷ − y</div>
+            <div class="formula">δ<sup>(l)</sup> = (W<sup>(l+1)</sup>)<sup>T</sup> δ<sup>(l+1)</sup> ⊙ σ′(z<sup>(l)</sup>)</div>
+            <div class="formula">∂L/∂W<sup>(l)</sup> = δ<sup>(l)</sup> (a<sup>(l-1)</sup>)<sup>T</sup>，&nbsp; ∂L/∂b<sup>(l)</sup> = δ<sup>(l)</sup></div>
+            <p>sigmoid 与交叉熵组合后，输出层的 δ 化简为极其简洁的 <b>ŷ − y</b>（预测减真实）。链式法则把这个误差逐层向前传回，得到每个参数的梯度。<span class="mono">js/mlp.js</span> 中的 <code>trainBatch()</code> 就是这段公式的逐行实现。</p>
+          </div>
+
+          <div class="theory-col">
+            <h4>4 · 参数更新 Optimizer</h4>
+            <div class="formula">SGD:&nbsp; W ← W − η ∂L/∂W</div>
+            <div class="formula">Momentum:&nbsp; v ← 0.9v − ηg，&nbsp; W ← W + v</div>
+            <div class="formula">Adam:&nbsp; m ← 0.9m + 0.1g，&nbsp; v ← 0.999v + 0.001g²</div>
+            <div class="formula">W ← W − η · m̂ / (√v̂ + ε)</div>
+            <p>η 是学习率：太小收敛慢，太大会在极小值附近震荡甚至发散。Adam 为每个参数自适应调整步长，通常收敛最快。面板里的「平均 |ΔW|」就是每步参数实际改动的平均幅度。</p>
+
+            <h4>5 · 建议做的几个实验</h4>
+            <ol class="experiments">
+              <li>把隐藏层改成 <b>2</b>，看 XOR 如何被两条直线「切」出来；再改成 <b>1</b>，观察模型永远学不会。</li>
+              <li>把学习率拉到 <b>0.4</b>，看损失曲线剧烈震荡；拉到 <b>0.002</b>，看收敛变慢。</li>
+              <li>激活函数换成 <b>sigmoid</b>，对比梯度范数 ‖g‖，体会梯度消失。</li>
+              <li>换成 <b>双螺旋</b> 数据集，加深网络（8,8,4），观察深层网络的拟合能力。</li>
+              <li>加大 <b>L2 正则</b>，看权重数值变小、决策边界变平滑。</li>
+              <li>选择 <b>自定义</b>，亲手点出一组数据，让网络为你现场拟合。</li>
+            </ol>
+            <p class="small">实现细节：Xavier / He 初始化、mini-batch 采样、可复现随机种子、数值稳定 sigmoid，全部在 <span class="mono">js/mlp.js</span> 中，约 200 行，无第三方依赖。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="foot">MLP Lab · 前向传播 / 反向传播 / 梯度下降 的浏览器内实现 · 所有计算都在你的电脑上完成</footer>
+  </main>
+</div>
+
+<script src="js/mlp.js"></script>
+<script src="js/datasets.js"></script>
+<script src="js/viz.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
